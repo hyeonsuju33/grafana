@@ -15,7 +15,7 @@ permissions: {}
 jobs:
   deploy-storybook-preview:
     name: Deploy Storybook preview
-    runs-on: ubuntu-x64
+    runs-on: xenoci-2vcpu-ubuntu-2404
     # Don't run from forks for the moment. If we find this useful we can do the workflow_run dance
     # to make it work for forks.
     if: github.event.pull_request.head.repo.fork == false

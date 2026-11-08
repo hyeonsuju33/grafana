@@ -11,7 +11,7 @@ permissions: {}
 
 jobs:
   main:
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       statuses: write
       checks: write

@@ -36,7 +36,7 @@ jobs:
       SENDER: ${{ github.event.sender.login }}
       SHA: ${{ github.sha }}
       PR_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       id-token: write
       contents: read
@@ -142,7 +142,7 @@ jobs:
     if: ${{ github.repository == 'grafana/grafana' && github.event.pull_request.head.repo.fork }}
     permissions:
       statuses: write
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     steps:
       - name: All good
         run: |

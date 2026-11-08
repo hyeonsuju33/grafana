@@ -34,7 +34,7 @@ jobs:
           github.event.pull_request.head.repo.fork == false &&
           contains(github.event.pull_request.labels.*.name, 'deploy-frontend-preview'))
       )
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
       pull-requests: read
@@ -70,7 +70,7 @@ jobs:
     # without another comment.
     needs: check
     if: github.event_name == 'issue_comment' && needs.check.outputs.should-deploy == 'true'
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       issues: write
       pull-requests: write
@@ -89,7 +89,7 @@ jobs:
     name: Comment that the build started
     needs: check
     if: needs.check.outputs.should-deploy == 'true'
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       pull-requests: write
     steps:
@@ -108,7 +108,7 @@ jobs:
     name: Build frontend
     needs: check
     if: needs.check.outputs.should-deploy == 'true'
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     # Only runs that passed the check gate reach this job, so unrelated
     # comments never join the group. A newer push cancels a stale in-flight
     # build, which has no external side effects.
@@ -145,7 +145,7 @@ jobs:
     # Uploads from a separate job so the OIDC-enabled step never runs
     # alongside code built from the PR.
     needs: [check, build]
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     # Never cancel an in-flight upload. Newer deploys queue behind it; GitHub
     # keeps only the newest pending job in the group, so the last push always
     # deploys last.
@@ -261,7 +261,7 @@ jobs:
     name: Comment that the deploy failed
     needs: [check, build, deploy]
     if: failure() && needs.check.outputs.should-deploy == 'true'
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       pull-requests: write
     steps:
@@ -285,7 +285,7 @@ jobs:
       always() && needs.check.outputs.should-deploy == 'true' &&
       !contains(needs.*.result, 'failure') &&
       contains(needs.*.result, 'cancelled')
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       pull-requests: write
     steps:

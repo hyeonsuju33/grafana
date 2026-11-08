@@ -14,7 +14,7 @@ permissions: {}
 jobs:
   detect-changes:
     name: Detect whether code changed
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     outputs:
@@ -35,7 +35,7 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.changed == 'true'
     name: Go Workspace Check
-    runs-on: ubuntu-arm64
+    runs-on: xenoci-2vcpu-ubuntu-2404
 
     permissions:
       contents: read
@@ -100,7 +100,7 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.changed == 'true'
     name: Check Wire Changes
-    runs-on: ubuntu-arm64
+    runs-on: xenoci-2vcpu-ubuntu-2404
 
     permissions:
       contents: read

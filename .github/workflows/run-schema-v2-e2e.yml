@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   dashboard-schema-v2-e2e:
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     continue-on-error: true
     # Run on `grafana/grafana` pushes (not mirrors), or on non-draft pull requests
     if: (github.event_name == 'push' && github.repository == 'grafana/grafana') || (github.event_name == 'pull_request' && github.event.pull_request.draft == false)

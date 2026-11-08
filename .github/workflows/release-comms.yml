@@ -38,7 +38,7 @@ jobs:
       DRY_RUN: ${{ inputs.dry_run }}
       LATEST: ${{ inputs.latest && '1' || '0' }}
       VERSION: ${{ inputs.version }}
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     steps:
     - if: ${{ github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/') }}
       run: |
@@ -190,7 +190,7 @@ jobs:
       - setup
       - create_github_release
     if: ${{ needs.setup.outputs.dry_run != 'true' && !contains(needs.setup.outputs.version, '+security') }}
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: write
     env:
@@ -253,7 +253,7 @@ jobs:
 
   post_on_slack:
     needs: setup
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     env:
       DRY_RUN: ${{ needs.setup.outputs.dry_run }}
       VERSION: ${{ needs.setup.outputs.version }}

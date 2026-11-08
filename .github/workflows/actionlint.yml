@@ -31,7 +31,7 @@ jobs:
     # Run on `grafana/grafana` pushes, or on pull requests, to prevent double-running on mirrors
     if: (github.event_name == 'pull_request' || (github.event_name == 'push' && github.repository == 'grafana/grafana'))
     name: Lint GitHub Actions files
-    runs-on: ubuntu-x64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read # to check out the code
       actions: read # to read the workflow files

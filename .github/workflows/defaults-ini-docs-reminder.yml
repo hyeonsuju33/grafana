@@ -8,7 +8,7 @@ on:
 jobs:
   add-comment:
     if: ${{ ! github.event.pull_request.head.repo.fork }}
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       pull-requests: write
     steps:

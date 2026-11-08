@@ -18,7 +18,7 @@ jobs:
     # Run on `grafana/grafana` main branch, or on pull requests to prevent double-running on mirrors
     if: (github.event_name == 'pull_request' || (github.event_name == 'push' && github.repository == 'grafana/grafana'))
     name: Detect whether code changed
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     outputs:
@@ -39,7 +39,7 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.run-e2e-tests == 'true'
     name: Build backend
-    runs-on: ubuntu-x64-xlarge
+    runs-on: xenoci-2vcpu-ubuntu-2404
     timeout-minutes: 15
     permissions:
       contents: read
@@ -75,7 +75,7 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.run-e2e-tests == 'true'
     name: Build frontend
-    runs-on: ubuntu-x64-xlarge
+    runs-on: xenoci-2vcpu-ubuntu-2404
     timeout-minutes: 15
     permissions:
       contents: read
@@ -105,7 +105,7 @@ jobs:
 
   run-storybook-test:
     name: Verify Storybook (Playwright)
-    runs-on: ubuntu-x64
+    runs-on: xenoci-2vcpu-ubuntu-2404
     timeout-minutes: 15
     needs: detect-changes
     if: needs.detect-changes.outputs.run-e2e-tests == 'true'
@@ -141,7 +141,7 @@ jobs:
       - build-backend
       - build-frontend
     name: Playwright E2E tests (${{ matrix.shard }}/${{ matrix.shardTotal }})
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     timeout-minutes: 20
     permissions:
       contents: read
@@ -291,7 +291,7 @@ jobs:
     needs: run-playwright-tests
     if: ${{ !cancelled() }}
     name: Playwright test report
-    runs-on: ubuntu-x64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
       id-token: write
@@ -352,7 +352,7 @@ jobs:
       - run-playwright-tests
     if: ${{ !cancelled() }}
     name: Report Playwright benchmarks
-    runs-on: ubuntu-x64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
       id-token: write
@@ -395,7 +395,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     steps:
       - id: vault-secrets
         uses: grafana/shared-workflows/actions/get-vault-secrets@main

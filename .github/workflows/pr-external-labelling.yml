@@ -12,7 +12,7 @@ jobs:
   label-if-external:
     name: Add 'pr/external' label if the PR is external
     if: github.event.pull_request.author_association != 'MEMBER' && github.event.pull_request.author_association != 'OWNER'
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       pull-requests: write # to write the label
 

@@ -21,7 +21,7 @@ permissions: {}
 jobs:
   setup:
     name: Setup opted-in teams
-    runs-on: ubuntu-x64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     outputs:
       # NOTE: Only checks test coverage for opted-in codeowners.
       #       Please add the GitHub user/team or email used in
@@ -39,7 +39,7 @@ jobs:
 
   detect-changes:
     name: Detect changed files
-    runs-on: ubuntu-x64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     outputs:
@@ -92,7 +92,7 @@ jobs:
     name: Coverage - ${{ matrix.codeowner }}
     needs: [setup, detect-changes]
     if: "!contains(github.event.pull_request.labels.*.name, 'no-check-frontend-test-coverage')"
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     strategy:
@@ -220,7 +220,7 @@ jobs:
     name: All coverage checks pass
     needs: [setup, coverage]
     if: always()
-    runs-on: ubuntu-x64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     steps:

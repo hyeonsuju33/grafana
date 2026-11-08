@@ -17,7 +17,7 @@ concurrency:
 jobs:
   check:
     name: Guard resource search result formats
-    runs-on: ubuntu-x64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     timeout-minutes: 5
     container:
       image: semgrep/semgrep:1.171.0@sha256:bdf7013b2c3634a487671158da77c554f531742326b543a9464d2adf6c433ac8
@@ -101,7 +101,7 @@ jobs:
 
   no-federated:
     name: Forbid new federated search requests
-    runs-on: ubuntu-x64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     timeout-minutes: 5
     container:
       image: semgrep/semgrep:1.171.0@sha256:bdf7013b2c3634a487671158da77c554f531742326b543a9464d2adf6c433ac8

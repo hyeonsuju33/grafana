@@ -52,7 +52,7 @@ jobs:
     name: Detect whether the Docker image build is affected
     # Skip draft PRs entirely: no detect-changes runner, no build jobs.
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     outputs:
@@ -76,7 +76,7 @@ jobs:
     name: build / full source (alpine)
     needs: detect-changes
     if: needs.detect-changes.outputs.changed == 'true'
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
       id-token: write
@@ -102,7 +102,7 @@ jobs:
     name: build / frontend
     needs: detect-changes
     if: needs.detect-changes.outputs.changed == 'true'
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     steps:
@@ -124,7 +124,7 @@ jobs:
     name: build / backend (linux-amd64)
     needs: detect-changes
     if: needs.detect-changes.outputs.changed == 'true'
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     outputs:
@@ -145,7 +145,7 @@ jobs:
 
   build-source-targz:
     name: build / source tarball
-    runs-on: ubuntu-x64-large
+    runs-on: xenoci-2vcpu-ubuntu-2404
     needs:
       - build-frontend
       - build-backend

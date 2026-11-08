@@ -23,7 +23,7 @@ jobs:
     # Run on `grafana/grafana` pushes, or on pull requests, to prevent double-running on mirrors
     if: (github.event_name == 'pull_request' || (github.event_name == 'push' && github.repository == 'grafana/grafana'))
     name: Detect whether code changed
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     outputs:
@@ -48,7 +48,7 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.changed == 'true' || needs.detect-changes.outputs.dev-dashboards-changed == 'true'
     name: Validate Backend Configs
-    runs-on: ubuntu-x64
+    runs-on: xenoci-2vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@v5
         with:

@@ -17,7 +17,7 @@ jobs:
     # This check is only meaningful in grafana/grafana; the workflow file is mirrored to
     # grafana-security-mirror, where it shouldn't run.
     if: github.repository == 'grafana/grafana'
-    runs-on: ubuntu-arm64-small
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       pull-requests: read
     steps:

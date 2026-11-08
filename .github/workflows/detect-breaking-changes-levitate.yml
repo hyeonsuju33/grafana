@@ -20,7 +20,7 @@ on:
 jobs:
   buildPR:
     name: Build PR packages artifacts
-    runs-on: ubuntu-arm64
+    runs-on: xenoci-2vcpu-ubuntu-2404
     defaults:
       run:
         working-directory: './pr'
@@ -60,7 +60,7 @@ jobs:
 
   buildBase:
     name: Build Base packages artifacts
-    runs-on: ubuntu-arm64
+    runs-on: xenoci-2vcpu-ubuntu-2404
     permissions:
       contents: read
     defaults:
@@ -107,7 +107,7 @@ jobs:
 
   Detect:
     name: Detect breaking changes between PR and base
-    runs-on: ubuntu-arm64
+    runs-on: xenoci-2vcpu-ubuntu-2404
     needs: ['buildPR', 'buildBase']
     env:
       GITHUB_STEP_NUMBER: 8
@@ -183,7 +183,7 @@ jobs:
 
   Report:
     name: Report breaking changes in PR comment
-    runs-on: ubuntu-arm64
+    runs-on: xenoci-2vcpu-ubuntu-2404
     needs: ['Detect']
     permissions:
       contents: read
