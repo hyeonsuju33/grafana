@@ -51,12 +51,22 @@ type RuleCounter interface {
 	Count(ctx context.Context, orgID int64) (int64, error)
 }
 
+// RuleGroupCounter counts distinct rule group names for usage reporting.
+type RuleGroupCounter interface {
+	CountRuleGroups(ctx context.Context, orgID int64) (int64, error)
+}
+
+// RuleGetter gets a rule by its UID
+type RuleGetter interface {
+	GetAlertRuleByUID(ctx context.Context, query *ngmodels.GetAlertRuleByUIDQuery) (*ngmodels.AlertRule, error)
+}
+
 // RuleReader reads rules and rule groups.
 type RuleReader interface {
-	GetAlertRuleByUID(ctx context.Context, query *ngmodels.GetAlertRuleByUIDQuery) (*ngmodels.AlertRule, error)
 	GetAlertRulesGroupByRuleUID(ctx context.Context, query *ngmodels.GetAlertRulesGroupByRuleUIDQuery) ([]*ngmodels.AlertRule, error)
 	ListDeletedRules(ctx context.Context, orgID int64) ([]*ngmodels.AlertRule, error)
 	RuleLister
+	RuleGetter
 }
 
 // RulePageReader is the paginated read surface.
@@ -117,10 +127,13 @@ type StatusWriter interface {
 	SaveAlertRuleStatus(ctx context.Context, orgID int64, ruleUID string, data []byte) error
 }
 
-// FolderRuleCounter reports whether folders still hold rules.
+// FolderRuleCounter reports whether folders still hold rules. The unsuffixed methods count rules of
+// every type; the ByType variants restrict to one.
 type FolderRuleCounter interface {
 	CountInFolders(ctx context.Context, orgID int64, folderUIDs []string, user identity.Requester) (int64, error)
+	CountInFoldersByType(ctx context.Context, orgID int64, folderUIDs []string, ruleType ngmodels.RuleTypeFilter, user identity.Requester) (int64, error)
 	GetAllFoldersWithRules(ctx context.Context, orgID int64) (map[string]struct{}, error)
+	GetAllFoldersWithRulesByType(ctx context.Context, orgID int64, ruleType ngmodels.RuleTypeFilter) (map[string]struct{}, error)
 }
 
 // MaintenanceStore cleans up soft-deleted rules.
@@ -128,14 +141,18 @@ type MaintenanceStore interface {
 	CleanUpDeletedAlertRules(ctx context.Context) (int64, error)
 }
 
-// Store is the full surface implemented by *RuleStore.
+// Store is the full rule storage surface.
 type Store interface {
+	ListAlertRuleUIDsInFolder(ctx context.Context, orgID int64, folderUID string) ([]string, error)
+	// GetFolderUIDsWithMissingFullpath supports legacy-only fullpath maintenance, not app-platform rules.
+	GetFolderUIDsWithMissingFullpath(ctx context.Context, orgID int64) ([]string, error)
 	NamespaceStore
 	RuleReader
 	RulePageReader
 	RuleByIDReader
 	RuleGroupReader
 	RuleCounter
+	RuleGroupCounter
 	RuleWriter
 	RuleAdminWriter
 	RuleVersionReader
@@ -151,8 +168,7 @@ type Store interface {
 }
 
 var (
-	_ Store = (*RuleStore)(nil)
-	// Value receiver too: ProvideRuleStore registers a RuleStore value with the folder service.
+	_ Store                  = (*RuleStore)(nil)
 	_ Store                  = RuleStore{}
 	_ folder.RegistryService = RuleStore{}
 )
