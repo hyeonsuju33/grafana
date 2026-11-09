@@ -3,7 +3,7 @@ name: "Endpoint Migration Feature Toggle Check"
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
-    branches: [main]
+    branches: [main, 'pr-train', 'xeno-base']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
