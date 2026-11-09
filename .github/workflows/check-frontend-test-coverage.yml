@@ -2,7 +2,7 @@ name: Check Frontend Test Coverage
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, 'pr-train', 'xeno-base']
     types: [opened, synchronize, reopened, labeled, unlabeled]
     paths:
       - '**/*.js'

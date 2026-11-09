@@ -3,7 +3,7 @@ name: "Go Workspace Check"
 on:
   workflow_dispatch:
   pull_request:
-    branches: [main]
+    branches: [main, 'pr-train', 'xeno-base']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

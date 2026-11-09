@@ -6,6 +6,8 @@ on:
       - reopened
       - synchronize
     branches:
+      - 'pr-train'
+      - 'xeno-base'
       - "main"
       - "release-*"
 
